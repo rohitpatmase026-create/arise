@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARISE | Rohit OS</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --glass: rgba(30, 41, 59, 0.6);
+            --accent: #38bdf8;
+            --text: #f1f5f9;
+            --success: #00ff7f;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 700px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 50px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .mode-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .mode-btn.active {
+            background: var(--accent);
+            color: #0f172a;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .search-box {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 25px;
+        }
+
+        input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            outline: none;
+        }
+
+        .result-panel {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            min-height: 50px;
+            margin-bottom: 30px;
+            display: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .result-header {
+            font-size: 12px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .result-body {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .site-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .portal-section {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .portal-title {
+            font-size: 12px;
+            color: #475569;
+            text-align: left;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .portal-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .portal-card:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="logo">ARISE</div>
+        <div class="subtitle">Next-Gen Intelligence OS</div>
+
+        <div class="mode-container">
+            <button id="aiBtn" class="mode-btn active" onclick="setMode('ai')">🤖 AI Mode</button>
+            <button id="searchBtn" class="mode-btn" onclick="setMode('search')">🔍 Search Mode</button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="q" placeholder="Type here and press Enter..." autofocus autocomplete="off">
+        </div>
+
+        <div class="result-panel" id="resultPanel">
+            <div class="result-header" id="resHeader">ARISE Assistant</div>
+            <div class="result-body" id="resBody">Ready for input...</div>
+        </div>
+
+        <div class="portal-section">
+            <div class="portal-title">Quick Access Portals</div>
+            <div class="grid-container">
+                <a href="https://zerodha.com" target="_blank" class="portal-card">📉 Zerodha</a>
+                <a href="https://dhan.co" target="_blank" class="portal-card">⚡ Dhan</a>
+                <a href="https://www.sarkariresult.com" target="_blank" class="portal-card">📄 Sarkari Result</a>
+                <a href="https://web.tallysolutions.com" target="_blank" class="portal-card">🧮 Tally Web</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'ai';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('aiBtn').classList.toggle('active', mode === 'ai');
+            document.getElementById('searchBtn').classList.toggle('active', mode === 'search');
+            document.getElementById('q').placeholder = mode === 'ai' ? "Type 'hi', search a site, or do math..." : "Type what to search on Google...";
+        }
+
+        function executeEngine() {
+            let q = document.getElementById('q').value.trim();
+            let panel = document.getElementById('resultPanel');
+            let rHeader = document.getElementById('resHeader');
+            let rBody = document.getElementById('resBody');
+
+            if(!q) return;
+
+            panel.style.display = "block";
+            rHeader.innerText = currentMode === 'ai' ? "🤖 ARISE AI CHAT" : "🔍 SEARCH ACTION";
+            rBody.innerHTML = "<span style='color:var(--accent);'>Thinking...</span>";
+
+            setTimeout(() => {
+                let lowerQ = q.toLowerCase();
+
+                if (currentMode === 'ai') {
+                    // 1. Conversation & Greetings
+                    if (['hi', 'hello', 'hey', 'yo'].some(w => lowerQ === w || lowerQ.startsWith(w + ' '))) {
+                        rBody.innerHTML = `<b>Arey Hello Rohit Bhai! 👋</b><br>Batao aaj kya chal raha hai? Trading chart dekhna hai, math solve karna hai ya koi website dhoodh rahe ho?`;
+                    }
+                    else if (lowerQ.includes('kaise ho') || lowerQ.includes('how are you')) {
+                        rBody.innerHTML = `Main ekdum makkhan hoon bhai! 😎 Aap batao, aapka kaam kaisa chal raha hai?`;
+                    }
+                    
+                    // 2. Smart Website Detector
+                    else if (['google', 'wikipedia', 'youtube', 'github', 'facebook' ,'instagram','twitter' ].some(w => lowerQ.includes(w))) {
+                        let siteName = ""; let url = ""; let desc = "";
+
+                        if (lowerQ.includes('google')) { siteName = "Google"; url = "https://www.google.com"; desc = "Duniya ka sabse bada search engine."; }
+                        else if (lowerQ.includes('wikipedia')) { siteName = "Wikipedia"; url = "https://www.wikipedia.org"; desc = "Ek muft online encyclopedia jahan har cheez ki jaankari milti hai."; }
+                        else if (lowerQ.includes('youtube')) { siteName = "YouTube"; url = "https://www.youtube.com"; desc = "Sabse bada video sharing aur streaming platform."; }
+                        else if (lowerQ.includes('github')) { siteName = "GitHub"; url = "https://github.com"; desc = "Developers ke liye code hosting aur collaboration platform."; }
+                        else if (lowerQ.includes('facebook')) { siteName = "Facebook"; url = "https://www.facebook.com"; desc = "Popular social media networking platform."; }
+                        else if (lowerQ.includes('instagram')) { siteName = "Instagram"; url = "https://www.instagram.com"; desc = "Photo aur video sharing social media platform."; }
+                        else if (lowerQ.includes('twitter')) { siteName = "Twitter"; url = "https://www.twitter.com"; desc = "Microblogging aur social networking service jahan log apne thoughts share karte hain."; }        
+                        rBody.innerHTML = `Bhai, maine aapki dhoodhi hui website pechan li hai:<br>
+                        <div class="site-card">
+                            <b style="color:var(--accent); font-size:18px;">${siteName}</b><br>
+                            <span style="font-size:14px; color:#94a3b8;">${desc}</span><br><br>
+                            👉 <a href="${url}" target="_blank" style="color:var(--success); font-weight:bold; text-decoration:none;">Click here to visit ${siteName} Website</a>
+                        </div>`;
+                    }
+
+                    // 3. Math Engine
+                    else if (/^[0-9+\-*/(). ]+$/.test(q)) {
+                        try {
+                            rBody.innerHTML = `Bhai calculation ho gayi hai! <br>👉 Math Expression: <code style='color:var(--accent);'>${q}</code><br><b style='color:var(--success); font-size:18px;'>Final Result: ${eval(q)}</b>`;
+                        } catch {
+                            rBody.innerHTML = "Arey bhai, yeh math expression thodi galat lag rahi hai. Ek baar check karo!";
+                        }
+                    } 
+
+                    // 4. Trading Engine
+                    else if (['nifty', 'reliance', 'tcs', 'stock', 'banknifty', 'hdfc'].some(w => lowerQ.includes(w))) {
+                        let symbol = lowerQ.split(' ')[0].toUpperCase();
+                        if(symbol === "STOCK" || symbol === "CHART") symbol = "NIFTY";
+                        rBody.innerHTML = `Bhai maine pattern match kar liya hai. Aap <b>${symbol}</b> ka chart dhoodh rahe ho.<br>📊 <a href="https://www.tradingview.com/chart/?symbol=NSE%3A${symbol}" target="_blank" style="color:var(--accent); font-weight:bold;">Yahan click karke direct TradingView Chart kholo</a>`;
+                    } 
+
+                    // Default Fallback
+                    else {
+                        rBody.innerHTML = `Bhai, aapne likha: "<b>${q}</b>"<br><br>Agar aapko iska live result chahiye, toh bas upar <b>Search Mode</b> par click karke Enter maar do, Google par direct open ho jayega!`;
+                    }
+                } 
+                
+                // Search Mode (Google Link generation)
+                else {
+                    rBody.innerHTML = `Bhai, aapki query <b>"${q}"</b> search karne ke liye taiyar hai.<br>🌐 <a href="https://www.google.com/search?q=${encodeURIComponent(q)}" target="_blank" style="color:var(--accent); font-weight:bold;">Yahan click karo aur Google par result dekho</a>`;
+                }
+                
+                document.getElementById('q').value = "";
+            }, 300);
+        }
+
+        document.getElementById("q").addEventListener("keypress", (e) => { 
+            if(e.key === 'Enter') executeEngine(); 
+        });
+    </script>
+</body>
+</html>
